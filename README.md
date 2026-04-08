@@ -1,7 +1,9 @@
 🧬 Embryo Reference Mapping & In Silico Perturbation Framework**
 
 🚀 Workflow
+
 ··································
+
 Step 1 — Build Reference Atlas
 
 You can either build the reference from scratch or download the precomputed version:
@@ -13,6 +15,7 @@ integrate.R
 ·Covers preprocessing, integration, and dimensional reduction
 
 ··································
+
 Step 2 — Projection (Label Transfer)
 
 To project your query dataset onto the reference, see:
@@ -22,6 +25,7 @@ Outputs predicted cell types and developmental stages
 
 
 ··································
+
 Step 3 — Train GAN Model
 
 To train the generative model, see:
@@ -32,6 +36,7 @@ sccGAN_code.ipynb
 
 
 ··································
+
 Step 4 — In Silico Overexpression (OE)
 
 To perform in silico perturbation (e.g., OE simulation), see:
