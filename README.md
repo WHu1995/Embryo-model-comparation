@@ -18,6 +18,11 @@ integrate.R
 ·Covers preprocessing, integration, and dimensional reduction
 
 ····································································
+Step 1.5 — Visualize the reference atlas
+
+Please see visualization.R for example code to load the prebuilt reference object and generate basic UMAP and marker-expression plots. you can skip if you use your own reference map.
+
+····································································
 
 Step 2 — Projection (Label Transfer)
 
