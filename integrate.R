@@ -1,6 +1,19 @@
 # integrate.R
 # Build an integrated Seurat reference atlas from multiple scRNA-seq datasets
+# Install CRAN packages
+install.packages(c("Seurat", "Matrix"))
 
+# Install Bioconductor package manager if needed
+if (!requireNamespace("BiocManager", quietly = TRUE)) {
+    install.packages("BiocManager")
+}
+# Install Bioconductor packages
+BiocManager::install(c(
+    "SingleCellExperiment",
+    "scater",
+    "batchelor",
+    "S4Vectors"
+))
 library(Seurat)
 library(Matrix)
 library(SingleCellExperiment)
