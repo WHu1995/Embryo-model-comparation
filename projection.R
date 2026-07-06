@@ -1,5 +1,14 @@
 # projection.R
 # Project query scRNA-seq data onto the integrated mouse reference atlas
+#install packages
+install.packages(c(
+    "Seurat",
+    "ggplot2",
+    "dplyr",
+    "ggalluvial",
+    "plotly",
+    "tidyr"
+))
 
 library(Seurat)
 library(ggplot2)
