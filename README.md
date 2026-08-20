@@ -7,7 +7,7 @@
 Step 1 — Build Reference Atlas
 
 You can either build the reference from scratch or download the precomputed version:
-👉 [https://zenodo.org/records/19476835](https://zenodo.org/records/22019550)
+👉 (https://zenodo.org/records/22019550)
 
 If building from scratch, please refer to:
 
