@@ -1,27 +1,15 @@
-# This is the example 
-
-# Rebuild the final lineage-constrained Moss reference URD tree from a
-# Seurat reference object, then project an independent Seurat query onto it.
-#
-# Edit only the configuration section before running:
-#   Rscript Moss_URD_tree_rebuild_and_query_projection.R
-#
-# Required reference metadata: dataset, orig.ident, cell_type, lineage_group.
-# Data-derived steps: lineage-aware ComBat, diffusion map, dual-root flood
-# pseudotime, directed random walks, and terminal-cell similarity.
-# The high-level display topology is explicitly lineage constrained and must
-# not be described as a completely unsupervised topology discovery.
-# Query projection uses Seurat MapQuery, inverse-distance segment voting, and
-# interpolation among up to five real reference cells on the winning segment.
-#
+# Example code for constructing a URD tree using MouseRef.
+# The precomputed URD tree is available at:
+# https://zenodo.org/records/23484968
+# You can use this code as a reference to construct your own URD tree.
+# Note that the layout parameters should be adjusted based on your own URD tree.
 # Tested with R 4.4.1, Seurat 4.4.0, sva 3.54.0, and URD 1.1.1 at
 
 
-# -----------------------------------------------------------------------------
+###############################################################################
 # Configuration
-# -----------------------------------------------------------------------------
-reference_rds <- "data/mouse_ref.rds"
-query_rds <- "data/query.rds"
+###############################################################################
+reference_rds <- "Mouseref.rds"
 output_dir <- "results"
 query_name <- "query"
 
@@ -38,9 +26,9 @@ RNGkind("Mersenne-Twister", "Inversion", "Rejection")
 set.seed(seed)
 options(future.globals.maxSize=32*1024^3)
 
-# -----------------------------------------------------------------------------
+###############################################################################
 # Packages
-# -----------------------------------------------------------------------------
+###############################################################################
 suppressPackageStartupMessages({
   library(Seurat)
   library(URD)
@@ -66,9 +54,9 @@ sample_cap <- function(meta, cap) {
 
 pdf_device <- if (capabilities("cairo")) grDevices::cairo_pdf else grDevices::pdf
 
-# -----------------------------------------------------------------------------
+###############################################################################
 # Prepare Reference
-# -----------------------------------------------------------------------------
+###############################################################################
 mouse_ref <- readRDS(reference_rds)
 stopifnot(inherits(mouse_ref, "Seurat"))
 meta <- mouse_ref[[]]
@@ -115,9 +103,9 @@ counts <- GetAssayData(mouse_ref, assay="RNA", slot="counts")[, cells, drop=FALS
 
 message("Reference cells retained: ", ncol(counts))
 
-# -----------------------------------------------------------------------------
+###############################################################################
 # Diffusion Map
-# -----------------------------------------------------------------------------
+###############################################################################
 seu <- CreateSeuratObject(counts, meta.data=meta, min.cells=3, min.features=100)
 seu <- NormalizeData(seu, verbose=FALSE)
 seu <- FindVariableFeatures(seu, selection.method="vst", nfeatures=2000, verbose=FALSE)
@@ -156,9 +144,9 @@ rm(profiles, counts); gc()
 urd <- calcDM(urd, genes.use=urd@var.genes, knn=100, sigma.use="local",
               dcs.store=40, verbose=TRUE)
 
-# -----------------------------------------------------------------------------
+###############################################################################
 # Pseudotime
-# -----------------------------------------------------------------------------
+###############################################################################
 root_te <- rownames(urd@meta)[urd@meta$stage_num==root_stage & urd@meta$cell_type=="TE"]
 root_icm <- rownames(urd@meta)[urd@meta$stage_num==root_stage & urd@meta$cell_type=="ICM"]
 root_cells <- c(root_te, root_icm)
@@ -200,9 +188,9 @@ corrected_pt[pt$stage==root_stage] <- 0
 urd@pseudotime$pseudotime_flood_original <- raw_pt[rownames(urd@pseudotime)]
 urd@pseudotime$pseudotime <- pmax(corrected_pt[rownames(urd@pseudotime)],0)
 
-# -----------------------------------------------------------------------------
+###############################################################################
 # Urd Topology
-# -----------------------------------------------------------------------------
+###############################################################################
 tip_definitions <- list(
   "Primary pTGC"="Pri.pTGC", "Secondary pTGC"="Sec.pTGC",
   "SpT / migrating EPC"=c("SpT","EPC.mig"), "SynTI progenitor"="SynTI.p",
@@ -254,9 +242,9 @@ tree <- nameSegments(tree,segments=as.character(1:26),
                      segment.names=names(tip_definitions),short.names=names(tip_definitions))
 tree@tree$unconstrained.segment.joins <- tree@tree$segment.joins
 
-# -----------------------------------------------------------------------------
+###############################################################################
 # Constrained Layout
-# -----------------------------------------------------------------------------
+###############################################################################
 tip_names <- names(tip_definitions)
 tip_types <- unname(tip_definitions)
 tip_lineage <- c(rep("Trophoblast",4),rep("Endoderm",5),rep("Mesoderm",11),rep("Ectoderm",5),"PGC")
@@ -383,41 +371,11 @@ tree@tree$lineage_constraint_method <- list(
 )
 tree@group.ids$segment_lineage_constrained <- as.character(setNames(d$segment,d$cell_id)[rownames(tree@group.ids)])
 
-# -----------------------------------------------------------------------------
+###############################################################################
 # Save Tree
-# -----------------------------------------------------------------------------
-stage_levels <- c(3.5,4.5,4.75,5,5.25,5.5,6.25,6.5,6.75,7,7.25,7.5,7.75,8,8.25,8.5,8.75)
-stage_colors <- c("3.5"="#ef4b3f","4.5"="#f46d43","4.75"="#f88d52","5"="#fdae61",
-                  "5.25"="#fed481","5.5"="#fee8a4","6.25"="#e6f598","6.5"="#c4e687",
-                  "6.75"="#a6d96a","7"="#7fca64","7.25"="#50b76b","7.5"="#2ca25f",
-                  "7.75"="#1b9e77","8"="#238b8d","8.25"="#2b8cbe","8.5"="#2878b5","8.75"="#345995")
-lineage_colors <- c(Trophoblast="#ef4b3f",Endoderm="#169c68",Mesoderm="#237dbd",
-                    Ectoderm="#7650b3",PGC="#d43f85")
-d[,stage_f:=factor(stage,levels=stage_levels)]
-
-tree_plot <- ggplot()+
-  geom_segment(data=skeleton,aes(x,y,xend=xend,yend=yend),color="#65757c",linewidth=.68,alpha=.72)+
-  geom_point(data=d,aes(plot_x,plot_y,color=stage_f),size=.78,alpha=.78)+
-  geom_segment(data=skeleton[segment %in% c(27,30,31,33)],aes(x,y,xend=xend,yend=yend),
-               color="#65757c",linewidth=.34,alpha=.82)+
-  scale_color_manual(values=stage_colors,drop=FALSE,name="Embryonic stage")+
-  ggnewscale::new_scale_color()+
-  geom_point(data=tips,aes(plot_x,plot_y,color=lineage),size=2.5)+
-  geom_text(data=tips,aes(plot_x,plot_y,label=label,color=lineage),nudge_x=.45,hjust=0,size=4)+
-  scale_color_manual(values=lineage_colors,guide="none")+
-  geom_label(data=roots,aes(plot_x,plot_y,label=label),nudge_x=-.55,hjust=1,size=5.2,
-             fontface="bold",label.size=0,fill="white")+
-  coord_cartesian(xlim=c(-3,43),ylim=c(-85,38),clip="off")+
-  labs(title="Moss reference: lineage-constrained URD tree")+
-  theme_void(base_size=13)+
-  theme(plot.title=element_text(face="bold",hjust=.5),legend.position="bottom",
-        plot.margin=margin(15,80,12,75))
-
-tree_prefix <- file.path(output_dir,"Moss_reference_lineage_constrained_URD")
+###############################################################################
 saveRDS(tree,paste0(tree_prefix,".rds"),compress="gzip")
 fwrite(d,file.path(output_dir,"lineage_constrained_cell_layout.csv.gz"))
 fwrite(skeleton,file.path(output_dir,"lineage_constrained_skeleton.csv"))
 fwrite(joins,file.path(output_dir,"lineage_constrained_segment_joins.csv"))
-ggsave(paste0(tree_prefix,".pdf"),tree_plot,width=11,height=16,device=pdf_device,bg="white")
-ggsave(paste0(tree_prefix,".png"),tree_plot,width=11,height=16,dpi=320,bg="white")
-tree_plot
+
