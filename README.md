@@ -25,7 +25,7 @@ Please see 01.5_Mouseref_visualization.R for example code to load the prebuilt r
 
 ····································································
 
-Step 2 — Projection to the Mouseref (Label Transfer)
+Step 2 — Project to the Mouseref (Label Transfer)
 
 To project your query dataset onto the reference, see:
 
@@ -35,8 +35,13 @@ To project your query dataset onto the reference, see:
 
 ·Outputs predicted cell types and developmental stages
 
-You can also project your data onto the pre-constructed URD_tree (https://zenodo.org/records/23484968), see:
+Step 3 — Project to the URD tree (Label Transfer)
+
+You can project your data onto the pre-constructed URD_tree (https://zenodo.org/records/23484968), see:
+
 03_project_to_URDtree.R
+
+You can also construct your own URD_tree, see:
 
 
 
