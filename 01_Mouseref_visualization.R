@@ -9,6 +9,7 @@ library(RColorBrewer)
 ###############################################################################
 # Step 1. Load reference object
 ###############################################################################
+# Mouseref.rds can be downloaded from (https://zenodo.org/records/22019550)
 # Replace with the path to your downloaded reference object
 Mouseref <- readRDS("Mouseref.rds")
 
