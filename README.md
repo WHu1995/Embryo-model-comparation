@@ -1,48 +1,77 @@
-🧬 Embryo Reference Mapping & In Silico Perturbation Framework**
+# 🧬 Embryo Reference Mapping & In Silico Perturbation Framework
 
-🚀 Workflow
+This repository provides example code for mapping single-cell transcriptomic datasets onto the **MouseRef reference atlas** and **URD developmental tree**, enabling cell-type annotation, developmental stage prediction, and comparative analysis of embryo models.
 
-····································································
+## 🚀 Workflow
 
-Step 1 — Build Reference Atlas
+### Step 1 — Build and Visualize MouseRef (Optional)
 
-You can either build the reference from scratch or download the precomputed version:
-👉 (https://zenodo.org/records/22019550)
+You can either construct the MouseRef reference atlas from scratch or download the precomputed reference:
 
-If building from scratch, please refer to:
+📥 **[Download MouseRef from Zenodo](https://zenodo.org/records/22019550)**
 
-01_build_refmap.R
+**Build the reference atlas**
 
-·Contains step-by-step annotated code
+`01_Build Mouseref(optional).R`
 
-·Covers preprocessing, integration, and dimensional reduction
+- Example code for constructing MouseRef from scratch.
+- Includes preprocessing, integration, and dimensionality reduction.
+- This step can be skipped if you use the precomputed reference.
 
-····································································
+**Visualize the reference atlas**
 
-Step 1.5 — Visualize the reference atlas
+`01_Mouseref_visualization.R`
 
-Please see 01.5_Mouseref_visualization.R for example code to load the prebuilt reference object and generate basic UMAP and marker-expression plots. you can skip if you use your own reference map.
+- Load the precomputed MouseRef object.
+- Generate UMAP visualizations and marker gene expression plots.
+- This step is optional if you are using your own reference atlas.
 
-····································································
+---
 
-Step 2 — Project to the Mouseref (Label Transfer)
+### Step 2 — Project Query Data onto MouseRef (Label Transfer)
 
-To project your query dataset onto the reference, see:
+**Script:** `02_Project_to_Mouseref_UMAP.R`
 
-02_project_to_UMAP.R
+This step maps your query dataset onto the MouseRef reference atlas.
 
-·Implements FindTransferAnchors and MapQuery
+- Performs reference-based mapping using `FindTransferAnchors` and `MapQuery`.
+- Transfers cell-type and developmental stage annotations.
+- Projects query cells onto the reference UMAP for visualization and comparison.
 
-·Outputs predicted cell types and developmental stages
+---
 
-Step 3 — Project to the URD tree (Label Transfer)
+### Step 3 — Project Query Data onto the URD Tree
 
-You can project your data onto the pre-constructed URD_tree (https://zenodo.org/records/23484968), see:
+You can use the preconstructed URD developmental tree or build your own tree using the provided example code.
 
-03_project_to_URDtree.R
+📥 **[Download the precomputed URD tree from Zenodo](https://zenodo.org/records/23484968)**
 
-You can also construct your own URD_tree, see:
+**Build your own URD tree (Optional)**
 
+`03_Build_your_own_tree(optional).R`
+
+- Provides example code for constructing a URD developmental tree using MouseRef.
+- Can be used as a reference for building a tree from your own dataset.
+- **Note:** Tree layout parameters should be adjusted according to the structure of your own URD tree.
+
+**Project query data onto the URD tree**
+
+`03_project_to_URDtree.R`
+
+- Projects query cells onto the reference developmental tree.
+- Enables visualization of query cell distributions along developmental trajectories.
+- Facilitates comparisons of developmental progression between embryo models and the natural embryo reference.
+
+---
+
+## 📂 Data Availability
+
+Precomputed reference datasets are available on Zenodo:
+
+- **MouseRef reference atlas:** https://zenodo.org/records/22019550
+- **MouseRef URD developmental tree:** https://zenodo.org/records/23484968
+
+Users can download these reference objects to perform mapping directly without reconstructing the reference atlas or developmental tree.
 
 
 ····································································
