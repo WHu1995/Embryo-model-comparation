@@ -11,7 +11,7 @@ You can either build the reference from scratch or download the precomputed vers
 
 If building from scratch, please refer to:
 
-integrate.R
+01_build_refmap.R
 
 ·Contains step-by-step annotated code
 
