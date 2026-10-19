@@ -64,14 +64,6 @@ You can use the preconstructed URD developmental tree or build your own tree usi
 
 ---
 
-## 📂 Data Availability
-
-Precomputed reference datasets are available on Zenodo:
-
-- **MouseRef reference atlas:** https://zenodo.org/records/22019550
-- **MouseRef URD developmental tree:** https://zenodo.org/records/23484968
-
-Users can download these reference objects to perform mapping directly without reconstructing the reference atlas or developmental tree.
 
 
 ····································································
