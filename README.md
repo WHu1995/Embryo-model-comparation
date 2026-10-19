@@ -21,7 +21,7 @@ If building from scratch, please refer to:
 
 Step 1.5 — Visualize the reference atlas
 
-Please see visualization.R for example code to load the prebuilt reference object and generate basic UMAP and marker-expression plots. you can skip if you use your own reference map.
+Please see 01.5_Mouseref_visualization.R for example code to load the prebuilt reference object and generate basic UMAP and marker-expression plots. you can skip if you use your own reference map.
 
 ····································································
 
