@@ -2,6 +2,8 @@
 
 This repository provides example code for mapping single-cell transcriptomic datasets onto the **MouseRef reference atlas** and **URD developmental tree**, enabling cell-type annotation, developmental stage prediction, and comparative analysis of embryo models.
 
+For transcription factor perturbation analysis, please refer to our separate repository: https://github.com/WHu1995/tf_perturbation_model
+
 ## 🚀 Workflow
 
 ### Step 1 — Build and Visualize MouseRef (Optional)
@@ -68,7 +70,7 @@ You can use the preconstructed URD developmental tree or build your own tree usi
 
 ····································································
 
-Step 3 — Train GAN Model
+Step 4 — Train GAN Model scoring
 
 To train the generative model, see:
 
@@ -80,17 +82,6 @@ sccGAN_code.ipynb
 
 
 
-····································································
-
-Step 4 — In Silico Overexpression (OE)
-
-To perform in silico perturbation (e.g., OE simulation), see:
-
-GCN_OE_code.ipynb
-
-·Simulates gene perturbations (e.g., transcription factor OE)
-
-·Can be combined with projection to evaluate lineage shifts
 
 
 ····································································
