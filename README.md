@@ -1,4 +1,4 @@
-<h1>🧬 Embryo Reference Mapping & In Silico Perturbation Framework</h1>
+<h1>🧬 Embryo Model Benchmarking Framework </h1>
 
 <p align="center">
   <img src="main.gif" width="700">
