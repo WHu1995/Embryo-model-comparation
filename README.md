@@ -1,4 +1,9 @@
 # 🧬 Embryo Reference Mapping & In Silico Perturbation Framework
+<h1>🧬 Embryo Reference Mapping & In Silico Perturbation Framework</h1>
+
+<p align="center">
+  <img src="embryo_development.gif" width="700">
+</p>
 
 This repository provides example code for mapping single-cell transcriptomic datasets onto the **MouseRef reference atlas** and **URD developmental tree**, enabling cell-type annotation, developmental stage prediction, and comparative analysis of embryo models.
 
