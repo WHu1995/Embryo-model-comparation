@@ -72,17 +72,6 @@ You can use the preconstructed URD developmental tree or build your own tree usi
 
 
 
-····································································
-
-Step 4 — Train GAN Model scoring
-
-To train the generative model, see:
-
-sccGAN_code.ipynb
-
-·Trains GAN on selected embryonic stages
-
-·Learns distribution of cell states
 
 
 
