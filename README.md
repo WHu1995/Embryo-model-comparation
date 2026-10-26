@@ -6,6 +6,8 @@
 
 This repository provides example code for mapping single-cell transcriptomic datasets onto the **MouseRef reference atlas** and **URD developmental tree**, enabling cell-type annotation, developmental stage prediction, and comparative analysis of embryo models.
 
+For GAN scoring, please refer to our separate repository: https://github.com/WHu1995/GAN-scoring
+
 For transcription factor perturbation analysis, please refer to our separate repository: https://github.com/WHu1995/tf_perturbation_model
 
 ## 🚀 Workflow
